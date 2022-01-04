@@ -1,4 +1,5 @@
 import tensorflow as tf
+import keras
 
 def make_prediction(image, model, class_names):
     image = load_and_prep_image(image)

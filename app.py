@@ -8,14 +8,13 @@ from glob import glob
 import keras
 import math
 
-st.title("Animal classification application")
-st.header("Identify what kind of animal is present in your photo!")
-
-CLASSES = [animal.replace('images','').replace('\\','') for animal in glob("images/*/")]
-models = [model.replace('.h5','').replace('models\\','') for model in glob("models/*")]
-
 def main():
-    @st.cache 
+    st.title("Animal classification application")
+    st.header("Identify what kind of animal is present in your photo!")
+
+    CLASSES = [animal.replace('images','').replace('\\','') for animal in glob("images/*/")]
+    models = [model.replace('.h5','').replace('models\\','') for model in glob("models/*")]
+
 
     MODEL = st.sidebar.selectbox(
         "Select model:",
@@ -36,12 +35,12 @@ def main():
                                      type=["png", "jpeg", "jpg"])
     session_state = SessionState.get(pred_button=False)
     pred_button = None
-    
+
     if uploaded_file is not None:
         session_state.uploaded_image = uploaded_file.read()
         st.image(session_state.uploaded_image, use_column_width=True)
         pred_button = st.button("Predict")
-    
+
     if pred_button:
         session_state.pred_button = True 
 
@@ -56,16 +55,23 @@ def main():
             st.markdown("""---""")
             session_state.feedback = st.selectbox(
                 "Is this correct?",
-                ("", "Yes", "No"))
+                ("select option", "Yes", "No"))
             if session_state.feedback == "":
                 pass
             elif session_state.feedback == "Yes":
-                st.write("d!")
+                st.write("Thank you!")
+                #TODO: add to training data
 
             elif session_state.feedback == "No":
-                session_state.correct_class = st.text_input("What should the label be?")
-                if session_state.correct_class:
-                    st.write("d!")
+                session_state.correct_class = st.text_input("What should the label be? Fill in the label in the textbox below.")
+                if session_state.correct_class == "":
+                    pass
+                elif session_state.correct_class not in CLASSES:
+                    st.write("This class was not part of our training case.")
+                elif session_state.correct_class:
+                    st.write("Thank you!")
+                    #TODO: add to training data
+                
 
 if __name__ == "__main__":
-    main()
+   main()
