@@ -7,7 +7,9 @@ Could serve as a basis for other applications. The model is built using transfer
 
 Clone git repo:
 ```bash
-git clone https://github.com/jessefokkinga/AnimalVision.git
+python -m venv venv
+source venv/bin/activate  # Windows: \venv\scripts\activate
+pip install -r requirements.txt
 ```
 
 Note: due to the presence of image data in this repo, the process can take a while. 
